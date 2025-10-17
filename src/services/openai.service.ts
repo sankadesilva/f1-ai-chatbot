@@ -24,12 +24,12 @@ class OpenAIService {
     try {
       logger.info('Extracting search intent', { userQuery });
 
-      const response = await this.client.chat.completions.create({
-        model: config.openai.model,
-        messages: [
-          {
-            role: 'developer',
-            content: `You are an AI assistant specialized in understanding F1 merchandise search queries.
+        const response = await this.client.chat.completions.create({
+          model: config.openai.model,
+          messages: [
+            {
+              role: 'developer',
+              content: `You are an AI assistant specialized in understanding F1 merchandise search queries.
 Extract search intent and return ONLY valid JSON with this exact structure:
 {
   "item": "product type (e.g., hoodie, cap, t-shirt, jacket, model, flag)",
@@ -41,16 +41,16 @@ Extract search intent and return ONLY valid JSON with this exact structure:
 
 Only include fields that are clearly mentioned or can be confidently inferred. Use null for missing fields.
 Return ONLY the JSON object, no additional text.`,
-          },
-          {
-            role: 'user',
-            content: userQuery,
-          },
-        ],
-        temperature: 0.3,
-        max_tokens: 200,
-        store: true,
-      });
+            },
+            {
+              role: 'user',
+              content: userQuery,
+            },
+          ],
+          temperature: 0.3,
+          max_completion_tokens: 200,
+          store: true,
+        });
 
       const content = response.choices[0]?.message?.content;
       if (!content) {
@@ -120,7 +120,7 @@ User intent: ${JSON.stringify(intent)}`,
           },
         ],
         temperature: config.openai.temperature,
-        max_tokens: config.openai.maxTokens,
+        max_completion_tokens: config.openai.maxTokens,
         store: true,
       });
 
@@ -169,7 +169,7 @@ Examples of good responses:
           },
         ],
         temperature: 0.7,
-        max_tokens: 150,
+        max_completion_tokens: 150,
         store: true,
       });
 
@@ -223,7 +223,7 @@ ${htmlContent.substring(0, 12000)}`;
           }
         ],
         temperature: 0.1,
-        max_tokens: 2000,
+        max_completion_tokens: 2000,
         store: true,
       });
 
