@@ -8,7 +8,6 @@ export const config = {
   openai: {
     apiKey: process.env.OPENAI_API_KEY || '',
     model: process.env.OPENAI_MODEL || 'gpt-5-nano',
-    temperature: 0.7,
     maxTokens: 500,
   },
 

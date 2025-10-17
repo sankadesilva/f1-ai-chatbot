@@ -47,7 +47,6 @@ Return ONLY the JSON object, no additional text.`,
               content: userQuery,
             },
           ],
-          temperature: 0.3,
           max_completion_tokens: 200,
           store: true,
         });
@@ -119,7 +118,6 @@ Sources searched: ${sources.join(', ')}
 User intent: ${JSON.stringify(intent)}`,
           },
         ],
-        temperature: config.openai.temperature,
         max_completion_tokens: config.openai.maxTokens,
         store: true,
       });
@@ -168,7 +166,6 @@ Examples of good responses:
             content: userQuery,
           },
         ],
-        temperature: 0.7,
         max_completion_tokens: 150,
         store: true,
       });
@@ -222,7 +219,6 @@ ${htmlContent.substring(0, 12000)}`;
             content: prompt
           }
         ],
-        temperature: 0.1,
         max_completion_tokens: 2000,
         store: true,
       });
