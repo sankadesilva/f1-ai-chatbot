@@ -123,10 +123,25 @@ class SearchService {
       }
 
       // Step 1: Extract search intent using OpenAI
-      const intent = await openAIService.extractIntent(userQuery);
+      let intent: SearchIntent;
+      let searchQuery: string;
       
-      // Step 2: Build search query
-      const searchQuery = openAIService.buildSearchQuery(intent);
+      try {
+        intent = await openAIService.extractIntent(userQuery);
+        searchQuery = openAIService.buildSearchQuery(intent);
+        logger.info('Intent extracted successfully', { intent, searchQuery });
+      } catch (error) {
+        logger.warn('Intent extraction failed, using original query', { error: error instanceof Error ? error.message : 'Unknown error' });
+        // Fallback: use original query as search term
+        intent = {
+          item: userQuery.toLowerCase(),
+          team: undefined,
+          driver: undefined,
+          budget: undefined,
+          category: 'general'
+        };
+        searchQuery = userQuery;
+      }
       
       // Step 3: Get scraper targets
       const targets = getEnabledTargets();
