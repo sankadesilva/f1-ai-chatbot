@@ -3,7 +3,8 @@
  * Handles web scraping from multiple F1 merchandise websites
  */
 
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import * as cheerio from 'cheerio';
 import axios from 'axios';
 import { config } from '../config';
@@ -21,9 +22,15 @@ class ScraperService {
   private async initializeBrowser(): Promise<Browser> {
     if (!this.browser) {
       logger.info('Initializing Puppeteer browser');
+      const executablePath = process.env.NODE_ENV === 'production' 
+        ? await chromium.executablePath()
+        : undefined;
+
       this.browser = await puppeteer.launch({
         headless: true,
+        executablePath,
         args: [
+          ...chromium.args,
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',

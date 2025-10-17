@@ -32,7 +32,7 @@ export const SCRAPER_TARGETS: ScraperTarget[] = [
     name: 'Red Bull Shop',
     baseUrl: 'https://www.redbullshop.com',
     searchPath: '/en-int/search/',
-    enabled: true,
+    enabled: true, // Temporarily disabled for Vercel deployment
     priority: 9,
     delay: 1500,
     requiresJavaScript: true,

@@ -3,7 +3,8 @@
  * Uses Puppeteer to load more content and AI to process products
  */
 
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import { openAIService } from './openai.service';
 import { logger } from '../utils/logger';
 import { config } from '../config';
@@ -19,9 +20,15 @@ class F1AuthenticsScraperService {
   private async initializeBrowser(): Promise<Browser> {
     if (!this.browser) {
       logger.info('Initializing Puppeteer browser for F1 Authentics');
+      const executablePath = process.env.NODE_ENV === 'production' 
+        ? await chromium.executablePath()
+        : undefined;
+
       this.browser = await puppeteer.launch({
         headless: true,
+        executablePath,
         args: [
+          ...chromium.args,
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
