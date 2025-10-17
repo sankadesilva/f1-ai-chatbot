@@ -185,17 +185,13 @@ class SearchService {
 
       logger.info(`Collected ${allProducts.length} products from ${successfulSources.length} sources`);
 
-      // Step 6: Filter by intent
-      const filteredProducts = this.filterProductsByIntent(allProducts, intent);
-      logger.info('Product filtering results', {
+      // Step 6: Skip filtering - scrapers already did the search
+      // The scrapers search with the actual query, so filtering by intent is redundant
+      const filteredProducts = allProducts;
+      logger.info('Product filtering skipped - using all scraped products', {
         originalCount: allProducts.length,
         filteredCount: filteredProducts.length,
-        intent: intent,
-        sampleProducts: allProducts.slice(0, 3).map(p => ({
-          name: p.name,
-          description: p.description,
-          brand: p.brand
-        }))
+        reason: 'Scrapers already performed search with query terms'
       });
       
       // Step 7: Remove duplicates
