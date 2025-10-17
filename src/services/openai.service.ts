@@ -47,6 +47,7 @@ Return ONLY the JSON object, no additional text.`,
               content: userQuery,
             },
           ],
+          
           max_completion_tokens: 200,
           store: true,
         });
