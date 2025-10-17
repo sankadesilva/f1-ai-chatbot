@@ -51,7 +51,7 @@ export default async function handler(
           target: target.name,
           success: false,
           productCount: 0,
-          error: error.message,
+          error: error instanceof Error ? error.message : 'Unknown error',
           processingTime: 0
         });
       }
