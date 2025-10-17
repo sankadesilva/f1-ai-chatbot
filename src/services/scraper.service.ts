@@ -283,7 +283,12 @@ class ScraperService {
     const startTime = Date.now();
 
     try {
-      logger.info(`Starting scrape for ${target.name}`, { query });
+      const searchUrl = `${target.baseUrl}${target.searchPath}${encodeURIComponent(query)}`;
+      logger.info(`Starting scrape for ${target.name}`, { 
+        query, 
+        searchUrl: searchUrl,
+        targetId: target.id 
+      });
 
       let products: Product[];
 

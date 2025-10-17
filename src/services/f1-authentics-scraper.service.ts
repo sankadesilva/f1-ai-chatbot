@@ -70,6 +70,7 @@ class F1AuthenticsScraperService {
 
       // Navigate to search page
       const searchUrl = `https://www.f1authentics.com/search?q=${encodeURIComponent(query)}`;
+      logger.info(`F1 Authentics Query Link: ${searchUrl}`);
       logger.info(`Scraping F1 Authentics: ${searchUrl}`);
 
       await page.goto(searchUrl, {

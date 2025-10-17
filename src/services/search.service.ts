@@ -143,7 +143,7 @@ class SearchService {
       
       try {
         intent = await openAIService.extractIntent(userQuery);
-        searchQuery = openAIService.buildSearchQuery(intent);
+        searchQuery = openAIService.buildSearchQuery(intent, userQuery);
         
         // Check if intent is empty or invalid
         if (!intent || Object.keys(intent).length === 0 || !intent.item) {
@@ -171,6 +171,16 @@ class SearchService {
       logger.info(`Using ${targets.length} scraper targets`);
 
       // Step 4: Scrape all targets in parallel
+      logger.info('Starting parallel scraping with query links', {
+        searchQuery,
+        targets: targets.map(t => ({
+          id: t.id,
+          name: t.name,
+          searchUrl: `${t.baseUrl}${t.searchPath}${encodeURIComponent(searchQuery)}`,
+          enabled: t.enabled
+        }))
+      });
+      
       const scraperResults = await scraperService.scrapeMultipleTargets(targets, searchQuery);
 
       // Step 5: Collect all products
@@ -243,12 +253,17 @@ class SearchService {
       // Cache the result
       cache.set(cacheKey, result);
 
-      // Log total token usage for this search request
+      // Log total token usage and query links for this search request
       logger.info('Search completed successfully', {
         productsReturned: finalProducts.length,
         totalFound: sortedProducts.length,
         sources: successfulSources.length,
         processingTime,
+        queryLinks: targets.map(t => ({
+          name: t.name,
+          url: `${t.baseUrl}${t.searchPath}${encodeURIComponent(searchQuery)}`,
+          enabled: t.enabled
+        })),
         tokenUsage: {
           intentExtraction: tokenUsage.intentExtraction,
           productSummary: tokenUsage.productSummary,

@@ -228,7 +228,7 @@ Examples of good responses:
   async extractProductsFromHTML(htmlContent: string, query: string): Promise<string> {
     try {
       const prompt = `Extract F1 merchandise products from this HTML content. Look for:
-- Product names (helmets, models, collectibles, etc.)
+- Product names (helmets, models, tshirts,jackets,collectibles, etc.)
 - Prices (in any currency)
 - Product URLs/links
 - Image URLs
@@ -289,7 +289,14 @@ ${htmlContent.substring(0, 12000)}`;
   /**
    * Build search query from intent
    */
-  buildSearchQuery(intent: SearchIntent): string {
+  buildSearchQuery(intent: SearchIntent, originalQuery?: string): string {
+    // If we have an original query, use it as the base
+    if (originalQuery) {
+      logger.debug('Using original query as search term', { originalQuery });
+      return originalQuery;
+    }
+
+    // Fallback: build from intent
     const terms: string[] = ['Formula 1', 'F1'];
 
     if (intent.team) terms.push(intent.team);
@@ -298,7 +305,7 @@ ${htmlContent.substring(0, 12000)}`;
     if (intent.category) terms.push(intent.category);
 
     const query = terms.join(' ');
-    logger.debug('Built search query', { intent, query });
+    logger.debug('Built search query from intent', { intent, query });
     return query;
   }
 }
