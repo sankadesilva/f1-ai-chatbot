@@ -28,7 +28,7 @@ class OpenAIService {
         model: config.openai.model,
         messages: [
           {
-            role: 'system',
+            role: 'developer',
             content: `You are an AI assistant specialized in understanding F1 merchandise search queries.
 Extract search intent and return ONLY valid JSON with this exact structure:
 {
@@ -49,6 +49,7 @@ Return ONLY the JSON object, no additional text.`,
         ],
         temperature: 0.3,
         max_tokens: 200,
+        store: true,
       });
 
       const content = response.choices[0]?.message?.content;
@@ -96,7 +97,7 @@ Return ONLY the JSON object, no additional text.`,
         model: config.openai.model,
         messages: [
           {
-            role: 'system',
+            role: 'developer',
             content: `You are a helpful and enthusiastic F1 merchandise shopping assistant.
 Generate a friendly, conversational response that:
 1. Acknowledges the user's request
@@ -120,6 +121,7 @@ User intent: ${JSON.stringify(intent)}`,
         ],
         temperature: config.openai.temperature,
         max_tokens: config.openai.maxTokens,
+        store: true,
       });
 
       const summary = response.choices[0]?.message?.content || 
@@ -144,7 +146,7 @@ User intent: ${JSON.stringify(intent)}`,
         model: config.openai.model,
         messages: [
           {
-            role: 'system',
+            role: 'developer',
             content: `You are a friendly and enthusiastic F1 merchandise shopping assistant. 
 You help people find F1 merchandise, answer questions about Formula 1, and provide shopping advice.
 
@@ -168,6 +170,7 @@ Examples of good responses:
         ],
         temperature: 0.7,
         max_tokens: 150,
+        store: true,
       });
 
       const summary = response.choices[0]?.message?.content || 
@@ -211,7 +214,7 @@ ${htmlContent.substring(0, 12000)}`;
         model: config.openai.model,
         messages: [
           {
-            role: 'system',
+            role: 'developer',
             content: 'You are an expert at extracting product information from HTML. Return ONLY valid JSON array, no other text.'
           },
           {
@@ -221,6 +224,7 @@ ${htmlContent.substring(0, 12000)}`;
         ],
         temperature: 0.1,
         max_tokens: 2000,
+        store: true,
       });
 
       return response.choices[0]?.message?.content || '';

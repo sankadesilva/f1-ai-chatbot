@@ -134,10 +134,10 @@ export class AIScraperService {
       const prompt = this.createExtractionPrompt(relevantHTML, siteName, query);
 
       const response = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini', // Using faster, cheaper model for extraction
+        model: 'gpt-5-nano', // Using latest model for extraction
         messages: [
           {
-            role: 'system',
+            role: 'developer',
             content: `You are an expert web scraper that extracts product information from HTML. 
             You must return ONLY valid JSON with no additional text or formatting.`
           },
@@ -148,6 +148,7 @@ export class AIScraperService {
         ],
         temperature: 0.1, // Low temperature for consistent extraction
         max_tokens: 2000,
+        store: true,
       });
 
       const content = response.choices[0]?.message?.content;
