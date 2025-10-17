@@ -111,6 +111,12 @@ class SearchService {
     maxResults: number = 20
   ): Promise<SearchResult> {
     const startTime = Date.now();
+    const tokenUsage = {
+      intentExtraction: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+      productSummary: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+      total: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
+    };
+    
     logger.info('Starting product search', { userQuery, maxResults });
 
     try {
@@ -205,11 +211,21 @@ class SearchService {
       // Cache the result
       cache.set(cacheKey, result);
 
+      // Log total token usage for this search request
       logger.info('Search completed successfully', {
         productsReturned: finalProducts.length,
         totalFound: sortedProducts.length,
         sources: successfulSources.length,
         processingTime,
+        tokenUsage: {
+          intentExtraction: tokenUsage.intentExtraction,
+          productSummary: tokenUsage.productSummary,
+          total: {
+            prompt_tokens: tokenUsage.intentExtraction.prompt_tokens + tokenUsage.productSummary.prompt_tokens,
+            completion_tokens: tokenUsage.intentExtraction.completion_tokens + tokenUsage.productSummary.completion_tokens,
+            total_tokens: tokenUsage.intentExtraction.total_tokens + tokenUsage.productSummary.total_tokens
+          }
+        }
       });
 
       return result;

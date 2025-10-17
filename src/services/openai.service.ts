@@ -48,11 +48,24 @@ Return ONLY the JSON object, no additional text.`,
             },
           ],
           
-          max_completion_tokens: 200,
           store: true,
         });
 
       const content = response.choices[0]?.message?.content;
+      const usage = response.usage;
+      
+      // Log token usage
+      logger.info('OpenAI API Response - Intent Extraction', {
+        model: response.model,
+        resp: response,
+        usage: {
+          prompt_tokens: usage?.prompt_tokens || 0,
+          completion_tokens: usage?.completion_tokens || 0,
+          total_tokens: usage?.total_tokens || 0
+        },
+        response_length: content?.length || 0
+      });
+
       if (!content) {
         logger.warn('Empty response from OpenAI');
         return {};
@@ -119,12 +132,26 @@ Sources searched: ${sources.join(', ')}
 User intent: ${JSON.stringify(intent)}`,
           },
         ],
-        max_completion_tokens: config.openai.maxTokens,
         store: true,
       });
 
       const summary = response.choices[0]?.message?.content || 
         `I found ${products.length} F1 merchandise items${sources.length > 0 ? ` from ${sources.join(', ')}` : ''} for you!`;
+
+      const usage = response.usage;
+      
+      // Log token usage
+      logger.info('OpenAI API Response - Product Summary', {
+        model: response.model,
+        resp: response,
+        usage: {
+          prompt_tokens: usage?.prompt_tokens || 0,
+          completion_tokens: usage?.completion_tokens || 0,
+          total_tokens: usage?.total_tokens || 0
+        },
+        response_length: summary.length,
+        product_count: products.length
+      });
 
       logger.info('Response generated successfully');
       return summary;
@@ -167,12 +194,25 @@ Examples of good responses:
             content: userQuery,
           },
         ],
-        max_completion_tokens: 150,
         store: true,
       });
 
       const summary = response.choices[0]?.message?.content || 
         "Hi there! I'm your F1 merchandise assistant! How can I help you find some awesome F1 gear today?";
+
+      const usage = response.usage;
+      
+      // Log token usage
+      logger.info('OpenAI API Response - General Chat', {
+        model: response.model,
+        resp: response,
+        usage: {
+          prompt_tokens: usage?.prompt_tokens || 0,
+          completion_tokens: usage?.completion_tokens || 0,
+          total_tokens: usage?.total_tokens || 0
+        },
+        response_length: summary.length
+      });
 
       logger.info('General response generated successfully');
       return summary;
@@ -220,11 +260,26 @@ ${htmlContent.substring(0, 12000)}`;
             content: prompt
           }
         ],
-        max_completion_tokens: 2000,
         store: true,
       });
 
-      return response.choices[0]?.message?.content || '';
+      const content = response.choices[0]?.message?.content || '';
+      const usage = response.usage;
+      
+      // Log token usage
+      logger.info('OpenAI API Response - HTML Product Extraction', {
+        model: response.model,
+        resp: response,
+        usage: {
+          prompt_tokens: usage?.prompt_tokens || 0,
+          completion_tokens: usage?.completion_tokens || 0,
+          total_tokens: usage?.total_tokens || 0
+        },
+        response_length: content.length,
+        html_length: prompt.length
+      });
+
+      return content;
     } catch (error) {
       logger.error('Error extracting products from HTML', error);
       return '';
