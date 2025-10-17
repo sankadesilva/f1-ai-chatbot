@@ -11,7 +11,7 @@ export const SCRAPER_TARGETS: ScraperTarget[] = [
     name: 'F1 Authentics',
     baseUrl: 'https://www.f1authentics.com',
     searchPath: '/search',
-    enabled: true,
+    enabled: false, // Temporarily disabled due to Vercel Puppeteer issues
     priority: 10,
     delay: 2000,
     requiresJavaScript: true, // Back to Puppeteer for load more functionality
@@ -32,7 +32,7 @@ export const SCRAPER_TARGETS: ScraperTarget[] = [
     name: 'Red Bull Shop',
     baseUrl: 'https://www.redbullshop.com',
     searchPath: '/en-int/search/',
-    enabled: true, // Temporarily disabled for Vercel deployment
+    enabled: false, // Temporarily disabled due to Vercel Puppeteer issues
     priority: 9,
     delay: 1500,
     requiresJavaScript: true,

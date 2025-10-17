@@ -129,6 +129,12 @@ class SearchService {
       try {
         intent = await openAIService.extractIntent(userQuery);
         searchQuery = openAIService.buildSearchQuery(intent);
+        
+        // Check if intent is empty or invalid
+        if (!intent || Object.keys(intent).length === 0 || !intent.item) {
+          throw new Error('Empty or invalid intent received');
+        }
+        
         logger.info('Intent extracted successfully', { intent, searchQuery });
       } catch (error) {
         logger.warn('Intent extraction failed, using original query', { error: error instanceof Error ? error.message : 'Unknown error' });
@@ -141,6 +147,7 @@ class SearchService {
           category: 'general'
         };
         searchQuery = userQuery;
+        logger.info('Using fallback search query', { searchQuery });
       }
       
       // Step 3: Get scraper targets
