@@ -1,0 +1,721 @@
+{
+  "info": {
+    "name": "F1 AI Chatbot Tests",
+    "description": "Comprehensive tests for F1 merchandise AI chatbot",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Basic F1 Merchandise Search",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"I'm looking for F1 helmets\",\n  \"maxResults\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});",
+              "",
+              "pm.test(\"Response contains data\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "});",
+              "",
+              "pm.test(\"Data contains products array\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data).to.have.property('products');",
+              "    pm.expect(jsonData.data.products).to.be.an('array');",
+              "});",
+              "",
+              "pm.test(\"Response time is reasonable\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(30000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Lewis Hamilton Merchandise",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Do you have any Lewis Hamilton merchandise?\",\n  \"maxResults\": 15\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});",
+              "",
+              "pm.test(\"Response contains data\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "});",
+              "",
+              "pm.test(\"Data contains products array\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data).to.have.property('products');",
+              "    pm.expect(jsonData.data.products).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Red Bull Racing Items",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Show me Red Bull Racing team merchandise\",\n  \"maxResults\": 12\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});",
+              "",
+              "pm.test(\"Response contains data\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Affordable F1 Items",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"I want F1 merchandise under $50\",\n  \"maxResults\": 20\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search F1 Apparel",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"What F1 clothing and apparel do you have?\",\n  \"maxResults\": 15\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversational F1 Search",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"I'm a new F1 fan and want to buy some cool merchandise for my room\",\n  \"maxResults\": 25\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search F1 Diecast Cars",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"I'm looking for F1 diecast model cars\",\n  \"maxResults\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('success');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test Empty Message Error",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"\",\n  \"maxResults\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Error response has error field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('error');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test Message Too Long",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"This is a very long message that exceeds the 500 character limit and should trigger an error response from the API because it's too long and contains too many characters to be processed properly by the system which has a maximum limit of 500 characters per message to ensure optimal performance and prevent abuse of the API endpoint which could potentially cause issues with the server if messages were allowed to be unlimited in length which would not be a good practice for any production API system that needs to handle multiple concurrent requests efficiently without running into memory or processing issues that could affect the overall user experience and system stability\",\n  \"maxResults\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Error response has error field\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('error');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verify All Sources Working",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"F1 merchandise from all sources\",\n  \"maxResults\": 30\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All three sources are present\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    const sources = jsonData.data.sources;",
+              "    ",
+              "    pm.expect(sources).to.include('F1 Authentics');",
+              "    pm.expect(sources).to.include('Red Bull Shop');",
+              "    pm.expect(sources).to.include('eBay');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Performance Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"F1 merchandise performance test\",\n  \"maxResults\": 50\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/search",
+          "host": ["{{base_url}}"],
+          "path": ["api", "search"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response time is under 60 seconds\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(60000);",
+              "});",
+              "",
+              "pm.test(\"Response time is under 30 seconds\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(30000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "health"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Health check returns 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verify Working Targets",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/test-working-targets",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test-working-targets"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response shows enabled targets\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "    pm.expect(jsonData.data).to.have.property('enabledTargets');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat - Say Hi",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"hi\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has AI message\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "    pm.expect(jsonData.data).to.have.property('message');",
+              "    pm.expect(jsonData.data.message).to.be.a('string');",
+              "});",
+              "",
+              "pm.test(\"Response is not product-related\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data.isProductResponse).to.be.false;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat - General Conversation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"How are you today?\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has AI message\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "    pm.expect(jsonData.data).to.have.property('message');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat - Product Search",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"I want to buy F1 helmets\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": ["{{base_url}}"],
+          "path": ["api", "chat"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has products\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "    pm.expect(jsonData.data).to.have.property('products');",
+              "    pm.expect(jsonData.data.products).to.be.an('array');",
+              "});",
+              "",
+              "pm.test(\"Response is product-related\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data.isProductResponse).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Debug F1 Authentics Scraper",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"helmet\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/debug-f1-authentics-scraper",
+          "host": ["{{base_url}}"],
+          "path": ["api", "debug-f1-authentics-scraper"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has products\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('data');",
+              "    pm.expect(jsonData.data).to.have.property('products');",
+              "    pm.expect(jsonData.data.products).to.be.an('array');",
+              "});",
+              "",
+              "pm.test(\"Products found count\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data.productsFound).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Add timestamp to prevent caching",
+          "pm.globals.set(\"timestamp\", Date.now());"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

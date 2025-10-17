@@ -1,0 +1,36 @@
+{
+  "name": "f1-merchandise-chatbot-api",
+  "version": "2.0.0",
+  "description": "AI-powered F1 merchandise search API with web scraping",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["f1", "chatbot", "web-scraper", "openai", "api"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^14.2.33",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "openai": "^4.20.1",
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^23.0.0",
+    "zod": "^3.22.4",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "@types/react": "18.x",
+    "@types/cheerio": "^0.22.31",
+    "typescript": "5.x"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
