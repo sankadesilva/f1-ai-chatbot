@@ -28,9 +28,17 @@ class SearchService {
         return false;
       }
 
-      // Filter by item type
-      if (intent.item && !productText.includes(intent.item.toLowerCase())) {
-        return false;
+      // Filter by item type (more flexible matching)
+      if (intent.item) {
+        const itemWords = intent.item.toLowerCase().split(/\s+/);
+        const hasMatch = itemWords.some(word => 
+          productText.includes(word) || 
+          (word === 'racewear' && (productText.includes('race') || productText.includes('suit') || productText.includes('teamwear'))) ||
+          (word === 'clothing' && (productText.includes('shirt') || productText.includes('jacket') || productText.includes('polo')))
+        );
+        if (!hasMatch) {
+          return false;
+        }
       }
 
       // Filter by budget
@@ -141,6 +149,7 @@ class SearchService {
           throw new Error('Empty or invalid intent received');
         }
         
+        // Note: Token usage for intent extraction is logged in openai.service.ts
         logger.info('Intent extracted successfully', { intent, searchQuery });
       } catch (error) {
         logger.warn('Intent extraction failed, using original query', { error: error instanceof Error ? error.message : 'Unknown error' });
@@ -178,6 +187,16 @@ class SearchService {
 
       // Step 6: Filter by intent
       const filteredProducts = this.filterProductsByIntent(allProducts, intent);
+      logger.info('Product filtering results', {
+        originalCount: allProducts.length,
+        filteredCount: filteredProducts.length,
+        intent: intent,
+        sampleProducts: allProducts.slice(0, 3).map(p => ({
+          name: p.name,
+          description: p.description,
+          brand: p.brand
+        }))
+      });
       
       // Step 7: Remove duplicates
       const uniqueProducts = this.removeDuplicates(filteredProducts);
