@@ -119,13 +119,14 @@ class SearchService {
     maxResults: number = 20
   ): Promise<SearchResult> {
     const startTime = Date.now();
+    const MAX_SEARCH_TIME = 45000; // 45 seconds max to avoid Vercel timeout
     const tokenUsage = {
       intentExtraction: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
       productSummary: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
       total: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
     };
     
-    logger.info('Starting product search', { userQuery, maxResults });
+    logger.info('Starting product search', { userQuery, maxResults, maxTime: MAX_SEARCH_TIME });
 
     try {
       // Check cache first
@@ -184,6 +185,22 @@ class SearchService {
       });
 
       logger.info(`Collected ${allProducts.length} products from ${successfulSources.length} sources`);
+
+      // Check if we're approaching timeout
+      const elapsedTime = Date.now() - startTime;
+      if (elapsedTime > MAX_SEARCH_TIME) {
+        logger.warn('Approaching timeout, returning partial results', { elapsedTime, maxTime: MAX_SEARCH_TIME });
+        const partialResult: SearchResult = {
+          products: allProducts.slice(0, maxResults),
+          searchQuery,
+          intent,
+          summary: `Found ${allProducts.length} products (partial results due to timeout)`,
+          sources: successfulSources,
+          totalFound: allProducts.length,
+          processingTime: elapsedTime,
+        };
+        return partialResult;
+      }
 
       // Step 6: Skip filtering - scrapers already did the search
       // The scrapers search with the actual query, so filtering by intent is redundant

@@ -13,9 +13,9 @@ export const SCRAPER_TARGETS: ScraperTarget[] = [
     searchPath: '/search',
     enabled: true, // Temporarily disabled due to Vercel Puppeteer issues
     priority: 10,
-    delay: 2000,
+    delay: 1000,
     requiresJavaScript: true, // Back to Puppeteer for load more functionality
-    timeout: 60000,
+    timeout: 50000,
     selectors: {
       productContainer: '.product-tile, .product-item, .product-card, .product, .grid-item, [data-testid="product"]',
       name: 'h3, h4, .product-name, .product-title, .title, h2, a, .product-tile a',
@@ -34,9 +34,9 @@ export const SCRAPER_TARGETS: ScraperTarget[] = [
     searchPath: '/en-int/search/',
     enabled: true, // Temporarily disabled due to Vercel Puppeteer issues
     priority: 9,
-    delay: 1500,
+    delay: 800,
     requiresJavaScript: true,
-    timeout: 20000,
+    timeout: 15000,
     selectors: {
       productContainer: '.product-tile', // Found 24 products with this selector!
       name: 'h3, .product-name, a, .title',

@@ -74,15 +74,15 @@ class F1AuthenticsScraperService {
 
       await page.goto(searchUrl, {
         waitUntil: 'domcontentloaded',
-        timeout: 60000,
+        timeout: 25000,
       });
 
       // Wait for initial content
-      await sleep(3000);
+      await sleep(1500);
 
       // Click load more button multiple times to get all products
       let loadMoreAttempts = 0;
-      const maxAttempts = 5;
+      const maxAttempts = 3;
 
       while (loadMoreAttempts < maxAttempts) {
         try {
@@ -110,7 +110,7 @@ class F1AuthenticsScraperService {
           if (loadMoreButton) {
             logger.debug(`Clicking load more button (attempt ${loadMoreAttempts + 1})`);
             await loadMoreButton.click();
-            await sleep(3000); // Wait for content to load
+            await sleep(1000); // Wait for content to load
             loadMoreAttempts++;
           } else {
             logger.debug('No load more button found, stopping');
